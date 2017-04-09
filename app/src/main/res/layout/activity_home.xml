@@ -1,110 +1,26 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@android:color/white"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/container_toolbar"
+    <fragment
+        android:id="@+id/place_autocomplete_fragment"
+        android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:text="FRAGMENT 1"
+        tools:context="com.example.leo.parq.home" />
 
 
-            <!-- layout="@layout/toolbar"
-            android:drawableLeft="@drawable/ic_btn_current_location"
-                android:drawablePadding="@dimen/list_row_padding"
-                android:background="@drawable/rounded_corner_map"
-                -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
-            android:orientation="vertical"
-            android:weightSum="1">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal"
-                android:weightSum="1">
-                <ImageView
-                    android:id="@+id/imageMarker"
-                    android:layout_width="25dp"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/map_marker"
-                    android:layout_weight="0.08" />
-
-                <TextView android:gravity="center_vertical"
-                    android:id="@+id/Locality"
-                    android:layout_width="233dp"
-                    android:layout_height="wrap_content"
-
-                    android:ellipsize="end"
-                    android:padding="10dp"
-                    android:singleLine="true"
-                    android:text="Click to change location"
-                    android:textSize="12dp" />
-                </LinearLayout>
-
-            <EditText
-                android:id="@+id/Address"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:ellipsize="end"
-                android:enabled="false"
-                android:hint="Address"
-                android:singleLine="true"
-                android:layout_weight="3.10" />
-        </LinearLayout>
-    </LinearLayout>
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/container_toolbar">
-
-        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:map="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/map"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context="com.example.leo.parq.home" />
-
-        <LinearLayout
-            android:id="@+id/locationMarker"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="30dp"
-            android:gravity="center"
-            android:orientation="vertical" >
-
-            <TextView
-                android:id="@+id/locationMarkertext"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:minWidth="250dp"
-                android:paddingLeft="2dp"
-                android:paddingRight="2dp"
-                android:text=" Set your Location "
-                android:textColor="@android:color/white" />
-            <!--
-            <ImageView
-                android:id="@+id/imageMarker"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/map_marker" /> -->
-        </LinearLayout>
-
-
-    </FrameLayout>
-</RelativeLayout>
+    <!---xmlns:map="http://schemas.android.com/apk/res-auto"-->
+        <!--xmlns:tools="http://schemas.android.com/tools"-->
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        tools:context="com.example.leo.parq.home"
+        tools:layout="@layout/activity_home" />
+</LinearLayout>

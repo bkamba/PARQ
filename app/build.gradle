@@ -4,7 +4,7 @@ android {
     compileSdkVersion 24
     buildToolsVersion '25.0.2'
     defaultConfig {
-        applicationId "com.example.leo.parq"
+        applicationId 'com.example.leo.parq'
         minSdkVersion 19
         targetSdkVersion 24
         versionCode 1
@@ -17,9 +17,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
     dexOptions {
         javaMaxHeapSize "4g"
+    }
+    productFlavors {
     }
 }
 

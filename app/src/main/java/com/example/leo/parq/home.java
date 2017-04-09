@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.leo.parq.Users.Lot;
@@ -40,6 +41,10 @@ import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStates;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.Places;
+import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
+import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -83,6 +88,25 @@ public class home extends FragmentActivity implements OnMapReadyCallback,
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
 
+        //Obtain the AutoCompleteFragment and create listener
+        PlaceAutocompleteFragment autocompFragment = (PlaceAutocompleteFragment) getFragmentManager()
+                .findFragmentById(R.id.place_autocomplete_fragment);
+
+        //AutoComplete Event Listener
+        autocompFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+           public void onPlaceSelected(Place place) {
+               Log.i(place.getId(), "Place: " + place.getName());
+               Location newLocation = new Location("");
+               newLocation.setLatitude(place.getLatLng().latitude);
+               newLocation.setLongitude(place.getLatLng().longitude);
+               changeLocation(newLocation);
+           }
+
+           public void onError(Status status) {
+               Log.i(Integer.toString(status.getStatusCode()), "An error occurred: " + status);
+           }
+        });
+
         // Getting Google Play availability status
         GoogleApiAvailability googleApiAvailability = GoogleApiAvailability.getInstance();
         int status = googleApiAvailability
@@ -100,6 +124,9 @@ public class home extends FragmentActivity implements OnMapReadyCallback,
                         .addConnectionCallbacks(this)
                         .addOnConnectionFailedListener(this)
                         .addApi(LocationServices.API)
+                        .addApi(Places.GEO_DATA_API)
+                        .addApi(Places.PLACE_DETECTION_API)
+                        .enableAutoManage(this, this)
                         .build();
                 Log.d("onCreate", "Api Client Built");
             }
@@ -155,6 +182,10 @@ public class home extends FragmentActivity implements OnMapReadyCallback,
         }
     }
 
+    private void changeLocation(Location location) {
+        mMap.clear();
+        populateMapWithDummyData(location);
+    }
 
      @Override
      protected void onPause(){
@@ -200,28 +231,30 @@ public class home extends FragmentActivity implements OnMapReadyCallback,
         if (location == null) {
             startLocationUpdates();
         } else {
-            currentLocation = location;
-            LatLng currentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-            IconGenerator iconFactory = new IconGenerator(this);
-            iconFactory.setStyle(IconGenerator.STYLE_PURPLE);
-            ArrayList<LatLng> locations = dummyLocations();
-            for(LatLng l: locations){
-                int n = rand.nextInt()%20;
-                if (n < 0) n+=20;
-                if (n < 5) n+=10;
-
-                mMap.addMarker(new MarkerOptions().position(l)
-                        .title(names[Math.abs(rand.nextInt()%6)])
-                        .icon(BitmapDescriptorFactory.fromBitmap(iconFactory.makeIcon("$"+n)))
-                        .anchor(iconFactory.getAnchorU(), iconFactory.getAnchorV()));
-            }
-            mMap.addMarker(new MarkerOptions().position(currentLatLng)
-                    .title("Current Location"));
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 16));
+            populateMapWithDummyData(location);
             //displayLocalMarkers.
         }
     }
+    private void populateMapWithDummyData(Location location){
+        currentLocation = location;
+        LatLng currentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+        IconGenerator iconFactory = new IconGenerator(this);
+        iconFactory.setStyle(IconGenerator.STYLE_PURPLE);
+        ArrayList<LatLng> locations = dummyLocations();
+        for(LatLng l: locations){
+            int n = rand.nextInt()%20;
+            if (n < 0) n+=20;
+            if (n < 5) n+=10;
 
+            mMap.addMarker(new MarkerOptions().position(l)
+                    .title(names[Math.abs(rand.nextInt()%6)])
+                    .icon(BitmapDescriptorFactory.fromBitmap(iconFactory.makeIcon("$"+n)))
+                    .anchor(iconFactory.getAnchorU(), iconFactory.getAnchorV()));
+        }
+        mMap.addMarker(new MarkerOptions().position(currentLatLng)
+                .title("Current Location"));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 16));
+    }
     private String[] names = {"John's Driveway", "Sal's Street", "Katy's Garage", "Jessica's Driveway",
             "Raph's Lawn", "Venessa's Garage"};
     private String[] descriptions = {"A lovely place to Park", "Closest parking tp venue",
@@ -295,9 +328,9 @@ public class home extends FragmentActivity implements OnMapReadyCallback,
                 new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                 MY_PERMISSIONS_REQUEST_LOCATION);
 
-        ActivityCompat.requestPermissions(this,
-                new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
-                MY_PERMISSIONS_REQUEST_LOCATION);
+//        ActivityCompat.requestPermissions(this,
+  //              new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+    //            MY_PERMISSIONS_REQUEST_LOCATION);
     }
 
     //check devices location setting
