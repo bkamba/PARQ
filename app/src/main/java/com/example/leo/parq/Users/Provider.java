@@ -26,7 +26,7 @@ public class Provider extends User {
 //  Creates new Lot obj with given parameters, adds mapping of new ID and Lot to collection
     public void addLot(double rate, int start_hr, int start_min, int end_hr, int end_min,
                        LatLng location) {
-        Lot new_lot = new Lot(rate, start_hr, start_min, end_hr, end_min, location);
+        Lot new_lot = new Lot(rate, start_hr, start_min, end_hr, end_min, location, Lot.lotType.DRIVEWAY ,this);
         lots.put(new_lot.getID(), new_lot);
     }
 
