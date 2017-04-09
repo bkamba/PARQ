@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.google.android.gms.appindexing.Action;
@@ -35,6 +36,10 @@ import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStates;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.Places;
+import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
+import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -64,6 +69,21 @@ public class home extends FragmentActivity implements OnMapReadyCallback,
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
 
+        //Obtain the AutoCompleteFragment and create listener
+        PlaceAutocompleteFragment autocompFragment = (PlaceAutocompleteFragment) getFragmentManager()
+                .findFragmentById(R.id.place_autocomplete_fragment);
+
+        //AutoComplete Event Listener
+        autocompFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+           public void onPlaceSelected(Place place) {
+               Log.i(place.getId(), "Place: " + place.getName());
+           }
+
+           public void onError(Status status) {
+               Log.i(Integer.toString(status.getStatusCode()), "An error occurred: " + status);
+           }
+        });
+
         // Getting Google Play availability status
         GoogleApiAvailability googleApiAvailability = GoogleApiAvailability.getInstance();
         int status = googleApiAvailability
@@ -81,6 +101,9 @@ public class home extends FragmentActivity implements OnMapReadyCallback,
                         .addConnectionCallbacks(this)
                         .addOnConnectionFailedListener(this)
                         .addApi(LocationServices.API)
+                        .addApi(Places.GEO_DATA_API)
+                        .addApi(Places.PLACE_DETECTION_API)
+                        .enableAutoManage(this, this)
                         .build();
                 Log.d("onCreate", "Api Client Built");
             }
