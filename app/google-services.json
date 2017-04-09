@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "497378499898",
+    "firebase_url": "https://parq-164004.firebaseio.com",
+    "project_id": "parq-164004",
+    "storage_bucket": "parq-164004.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:497378499898:android:69a958289bdac6ab",
+        "android_client_info": {
+          "package_name": "com.example.leo.parq"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "497378499898-ejlrpi60vv4sjuev5pr8528v8mo1fmqu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.leo.parq",
+            "certificate_hash": "568a712811a9d1e31125b8676dbc7a4dce2717e3"
+          }
+        },
+        {
+          "client_id": "497378499898-h0njpfufp2l4rf79iot59vceujj7fe5m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7zzFuAgfutFyRTstJZx04fn8uAnDhF6E"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "497378499898-h0njpfufp2l4rf79iot59vceujj7fe5m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
